@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/style-starter.css">
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .site-section {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            padding: 30px;
+            margin: 40px auto;
+            max-width: 1200px;
+            border: 1px solid #e0e0e0;
+        }
+        
+        h3 {
+            color: #2c3e50;
+            margin-bottom: 25px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #3498db;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+        }
+        
+        .table {
+            margin-bottom: 30px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .table thead {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .table-striped tbody tr:nth-of-type(odd) {
+            background-color: rgba(52, 152, 219, 0.05);
+        }
+        
+        .table-striped tbody tr:hover {
+            background-color: rgba(52, 152, 219, 0.15);
+            transform: scale(1.005);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: all 0.2s ease;
+        }
+        
+        .btn-style {
+            border-radius: 6px;
+            padding: 8px 22px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+        }
+        
+        .btn-style:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .btn-style-3 {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            border: none;
+        }
+        
+        .btn-style-3:hover {
+            background: linear-gradient(135deg, #1a252f, #2c3e50);
+            color: white;
+        }
+        
+        .modal-content {
+            border-radius: 10px;
+            border: none;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        
+        .modal-header {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            border-bottom: none;
+            border-radius: 9px 9px 0 0 !important;
+        }
+        
+        .modal-footer {
+            border-top: none;
+            background-color: #f8f9fa;
+            border-radius: 0 0 9px 9px;
+        }
+        
+        .form-control {
+            border-radius: 6px;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            transition: all 0.3s;
+        }
+        
+        .form-control:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 0 0.3rem rgba(52, 152, 219, 0.25);
+            transform: translateY(-2px);
+        }
+        
+        .table-responsive-class {
+            overflow-x: auto;
+            border-radius: 8px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            border: none;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #2980b9, #3498db);
+        }
+        
+        .btn-warning {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            border: none;
+            color: white;
+        }
+        
+        .btn-warning:hover {
+            background: linear-gradient(135deg, #e67e22, #f39c12);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #95a5a6, #7f8c8d);
+            border: none;
+        }
+        
+        .btn-secondary:hover {
+            background: linear-gradient(135deg, #7f8c8d, #95a5a6);
+        }
+        
+        /* Email badge styling */
+        .email-badge {
+            background-color: #9b59b6;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: 500;
+            display: inline-block;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        /* Action buttons container */
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+        
+        /* Section header */
+        .section-header {
+            background: linear-gradient(90deg, rgba(52,152,219,0.1) 0%, rgba(52,152,219,0.3) 50%, rgba(52,152,219,0.1) 100%);
+            padding: 15px;
+            margin-bottom: 25px;
+            border-radius: 8px;
+            border-left: 5px solid #3498db;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- header -->
+    <div th:replace="~{layouts/header :: header}">...</div>
+
+    <div class="site-section">
+        <div class="section-header">
+            <h3 class="text-center m-0">Event Participants</h3>
+        </div>
+        
+        <div class="table-responsive-class">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th class="text-center">Participant Email</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="user: ${event.participants}">
+                        <td class="text-center">
+                            <span class="email-badge" th:text="${user.email}"></span>
+                        </td>
+                        <td class="text-center">
+                            <div class="action-buttons">
+                                <a th:href="@{/admin/deleteParticipantsFromEvent(email=${user.email})}" 
+                                   class="btn btn-warning btn-sm">
+                                    Remove Participant
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="d-flex justify-content-between mt-4">
+            <div>
+                <a th:href="@{/dashboard}">
+                    <button class="btn btn-style btn-style-3">
+                        <i class="fas fa-arrow-left mr-2"></i> BACK TO DASHBOARD
+                    </button>
+                </a>
+            </div>
+            <div>
+                <button type="button" class="btn btn-primary btn-style" data-toggle="modal" data-target="#addParticipantModal">
+                    <i class="fas fa-user-plus mr-2"></i> ADD PARTICIPANT
+                </button>
+            </div>
+        </div>
+
+        <!-- Add Participant Modal -->
+        <div class="modal fade" id="addParticipantModal" tabindex="-1" role="dialog"
+            aria-labelledby="addParticipantModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addParticipantModalLabel">Add New Participant</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form th:action="@{/admin/addParticipantToEvent}" method="post" class="signin-form">
+                            <div class="form-group">
+                                <label for="email" class="font-weight-bold">Participant Email</label>
+                                <input type="email" class="form-control" name="email" placeholder="Enter email address" required>
+                                <small class="form-text text-muted">Enter the registered email of the user</small>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block btn-style">
+                                <i class="fas fa-save mr-2"></i> ADD PARTICIPANT
+                            </button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    
+    <!-- Bootstrap Bundle with Popper (JS) -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

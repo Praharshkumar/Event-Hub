@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/style-starter.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <style>
+        body {
+            background-color: #e9f2fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .site-section {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            padding: 30px;
+            margin: 40px auto;
+            border: 1px solid #e0e8f0;
+        }
+        
+        h3 {
+            color: #2c3e50;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #3498db;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+            background: linear-gradient(to right, rgba(52,152,219,0.1), rgba(52,152,219,0.3));
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .table {
+            margin-bottom: 30px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+        }
+        
+        .table thead {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+        
+        .table-striped tbody tr:nth-of-type(odd) {
+            background-color: rgba(52, 152, 219, 0.07);
+        }
+        
+        .table-striped tbody tr:hover {
+            background-color: rgba(52, 152, 219, 0.15);
+            transform: scale(1.005);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: all 0.2s ease;
+        }
+        
+        .btn-style {
+            border-radius: 6px;
+            padding: 10px 24px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+            border: none;
+        }
+        
+        .btn-style:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        .btn-style-3 {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+        }
+        
+        .btn-style-3:hover {
+            background: linear-gradient(135deg, #1a252f, #2c3e50);
+            color: white;
+        }
+        
+        .modal-content {
+            border-radius: 12px;
+            border: none;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .modal-header {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            border-bottom: none;
+            border-radius: 10px 10px 0 0 !important;
+            padding: 20px;
+        }
+        
+        .modal-footer {
+            border-top: none;
+            background-color: #f8fafc;
+            border-radius: 0 0 10px 10px;
+            padding: 15px 20px;
+        }
+        
+        .form-control {
+            border-radius: 8px;
+            padding: 12px 18px;
+            border: 1px solid #d6e0ea;
+            transition: all 0.3s;
+            background-color: #f8fafc;
+        }
+        
+        .form-control:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 0 0.3rem rgba(52, 152, 219, 0.25);
+            background-color: #ffffff;
+        }
+        
+        .table-responsive-class {
+            overflow-x: auto;
+            border-radius: 10px;
+            background-color: #ffffff;
+            padding: 5px;
+        }
+        
+        /* Button Styles */
+        .btn-primary {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            border: none;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #2980b9, #3498db);
+        }
+        
+        .btn-info {
+            background: linear-gradient(135deg, #17a2b8, #138496);
+            border: none;
+            color: white;
+        }
+        
+        .btn-info:hover {
+            background: linear-gradient(135deg, #138496, #17a2b8);
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            border: none;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background: linear-gradient(135deg, #c0392b, #e74c3c);
+        }
+        
+        .btn-warning {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            border: none;
+            color: white;
+        }
+        
+        .btn-warning:hover {
+            background: linear-gradient(135deg, #e67e22, #f39c12);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #95a5a6, #7f8c8d);
+            border: none;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: linear-gradient(135deg, #7f8c8d, #95a5a6);
+        }
+        
+        /* Action buttons */
+        .action-btn {
+            margin: 0 5px;
+            min-width: 120px;
+            padding: 8px 12px;
+            font-size: 0.9rem;
+        }
+        
+        /* ID badges */
+        .id-badge {
+            background-color: #9b59b6;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-weight: 500;
+            display: inline-block;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        /* Footer buttons */
+        .footer-buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .action-btn {
+                margin-bottom: 5px;
+                display: block;
+                width: 100%;
+            }
+            .btn-style {
+                padding: 8px 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- header -->
+    <div th:replace="~{layouts/header :: header}">...</div>
+
+    <div class="site-section container">
+        <div class="table-responsive-class">
+            <h3><i class="fas fa-calendar-alt mr-2"></i> Event Management Dashboard</h3>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th class="text-center">Event ID</th>
+                        <th class="text-center">Event Name</th>
+                        <th class="text-center">Event Date</th>
+                        <th class="text-center">Location</th>
+                        <th class="text-center">Manager ID</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="event: ${eventList}">
+                        <td class="text-center"><span class="id-badge" th:text="${event.eventId}"></span></td>
+                        <td class="text-center" th:text="${event.eventName}"></td>
+                        <td class="text-center" th:text="${event.eventDate}"></td>
+                        <td class="text-center" th:text="${event.eventLocation}"></td>
+                        <td class="text-center"><span class="id-badge" th:text="${event.user.userId}"></span></td>
+                        <td class="text-center">
+                            <div class="d-flex justify-content-center flex-wrap">
+                                <button type="button" class="btn btn-primary action-btn" data-toggle="modal"
+                                    th:attr="data-target='#createNotificationModal' + ${event.eventId}">
+                                    <i class="fas fa-bell mr-1"></i> Notification
+                                </button>
+
+                                <a th:href="@{/admin/manageParticipants(id=${event.eventId})}" 
+                                   class="btn btn-warning action-btn">
+                                    <i class="fas fa-users mr-1"></i> Participants
+                                </a>
+                                
+                                <a th:href="@{/admin/deleteEvent(eventId=${event.eventId})}" 
+                                   class="btn btn-danger action-btn">
+                                    <i class="fas fa-trash-alt mr-1"></i> Delete
+                                </a>
+                            </div>
+
+                            <!-- Notification Modal -->
+                            <div class="modal fade" th:id="'createNotificationModal' + ${event.eventId}" tabindex="-1"
+                                role="dialog" aria-labelledby="createNotificationModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">
+                                                <i class="fas fa-bell mr-2"></i> Create Notification
+                                            </h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form th:action="@{/admin/createNotification}" method="post" class="signin-form">
+                                                <div class="form-group">
+                                                    <label for="notificationContent" class="font-weight-bold">
+                                                        <i class="fas fa-align-left mr-1"></i> Message Content
+                                                    </label>
+                                                    <textarea class="form-control" name="notificationContent" 
+                                                        placeholder="Enter notification message..." required rows="5"></textarea>
+                                                    <input type="hidden" name="eventId" th:value="${event.eventId}" />
+                                                    <input type="hidden" name="userId" th:value="${event.user.userId}" />
+                                                </div>
+                                                <button type="submit" class="btn btn-primary btn-block">
+                                                    <i class="fas fa-paper-plane mr-1"></i> Send Notification
+                                                </button>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                                <i class="fas fa-times mr-1"></i> Close
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="footer-buttons">
+            <a th:href="@{/dashboard}" class="btn btn-style btn-style-3">
+                <i class="fas fa-arrow-left mr-2"></i> Back to Dashboard
+            </a>
+            <button type="button" class="btn btn-primary btn-style" data-toggle="modal" data-target="#createEventModal">
+                <i class="fas fa-plus-circle mr-2"></i> Create New Event
+            </button>
+        </div>
+
+        <!-- Create Event Modal -->
+        <div class="modal fade" id="createEventModal" tabindex="-1" role="dialog"
+            aria-labelledby="createEventModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">
+                            <i class="fas fa-calendar-plus mr-2"></i> Create New Event
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form th:action="@{/admin/createEvent}" method="post" class="signin-form">
+                            <div class="form-group">
+                                <label for="eventName" class="font-weight-bold">
+                                    <i class="fas fa-heading mr-1"></i> Event Name
+                                </label>
+                                <input type="text" class="form-control" name="eventName" placeholder="Enter event name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="eventDate" class="font-weight-bold">
+                                    <i class="fas fa-calendar-day mr-1"></i> Event Date
+                                </label>
+                                <input type="date" class="form-control" name="eventDate" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="eventLocation" class="font-weight-bold">
+                                    <i class="fas fa-map-marker-alt mr-1"></i> Location
+                                </label>
+                                <input type="text" class="form-control" name="eventLocation" placeholder="Enter event location" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block btn-style">
+                                <i class="fas fa-save mr-1"></i> Create Event
+                            </button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                            <i class="fas fa-times mr-1"></i> Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Bootstrap Bundle with Popper (JS) -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
